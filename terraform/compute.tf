@@ -1,9 +1,9 @@
 resource "oci_core_instance" "Test-instance" {
   #Required parameters
   availability_domain = "gZwj:AF-JOHANNESBURG-1-AD-1"
-  compartment_id      = var.compartment_id
+  compartment_id      = module.identity.observability_compartment_id #specified compartment specifically for this project.
   shape               = var.vm_instance_shape
-  display_name        = "OCI-Instance-Test-instance"
+  display_name        = "Observed Instance"
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.Test-network-subnet.id
@@ -12,7 +12,7 @@ resource "oci_core_instance" "Test-instance" {
   #Optional parameters
   source_details {
     source_type = "image"
-    source_id   = data.oci_core_images.instance_image.images[0].id  # Not a string value
+    source_id   = data.oci_core_images.instance_image.images[0].id # Not a string value
   }
   metadata = {
     ssh_authorized_keys = var.ssh_key_path

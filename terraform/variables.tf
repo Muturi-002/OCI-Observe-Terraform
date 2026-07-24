@@ -4,7 +4,7 @@ variable "fingerprint" {}
 variable "path_to_key_file" {}
 variable "tenancy_region" {}
 variable "compartment_id" {
-  description = "The OCID of the compartment where resources will be created."
+  description = "The OCID of the parent compartment where resources will be created."
 }
 variable "ssh_key_path" {
   description = "The SSH private key to be used for connecting to the instance(s)."
@@ -29,4 +29,15 @@ variable "dns_label" {
   description = "The DNS label for the VCN."
   type        = string
   default     = "testdns"
+}
+
+# Define Observability compartment user
+variable "observability_user" {
+  description = "username of the observability compartment"
+  type        = string
+}
+
+variable "user_email" {
+  description = "user email"
+  type        = string
 }

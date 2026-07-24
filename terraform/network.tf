@@ -1,18 +1,18 @@
 resource "oci_core_vcn" "Test-network" {
-  compartment_id = var.compartment_id
+  compartment_id = module.identity.observability_compartment_id
   cidr_blocks    = var.vcn_cidr_blocks
   dns_label      = var.dns_label
   display_name   = var.dns_label
 }
 
 resource "oci_core_internet_gateway" "Test-network-igw" {
-  compartment_id = var.compartment_id
+  compartment_id = module.identity.observability_compartment_id
   vcn_id         = oci_core_vcn.Test-network.id
   display_name   = "OCI-IGW-Test-network1"
 }
 
 resource "oci_core_route_table" "Test-network-rt" {
-  compartment_id = var.compartment_id
+  compartment_id = module.identity.observability_compartment_id
   vcn_id         = oci_core_vcn.Test-network.id
   display_name   = "OCI-RT-Test-network1"
   route_rules {
@@ -22,7 +22,7 @@ resource "oci_core_route_table" "Test-network-rt" {
 }
 
 resource "oci_core_subnet" "Test-network-subnet" {
-  compartment_id = var.compartment_id
+  compartment_id = module.identity.observability_compartment_id
   vcn_id         = oci_core_vcn.Test-network.id
   cidr_block     = var.vcn_cidr_blocks[0]
   dns_label      = var.dns_label
@@ -31,7 +31,7 @@ resource "oci_core_subnet" "Test-network-subnet" {
 }
 
 resource "oci_core_network_security_group" "Test-network-NSG" {
-  compartment_id = var.compartment_id
+  compartment_id = module.identity.observability_compartment_id
   vcn_id         = oci_core_vcn.Test-network.id
   display_name   = "Test-network-NSG"
 }

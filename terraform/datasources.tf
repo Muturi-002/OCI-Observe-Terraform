@@ -1,10 +1,10 @@
 # Data source to get the image
 data "oci_core_images" "instance_image" {
-  compartment_id       = var.compartment_id
-  operating_system     = var.vm_instance_OS
+  compartment_id           = var.compartment_id
+  operating_system         = var.vm_instance_OS
   operating_system_version = var.image_OS_version
-  sort_order           = "ASC"
-  sort_by="DISPLAYNAME"
+  sort_order               = "ASC"
+  sort_by                  = "DISPLAYNAME"
 
   /*
   Sorting the images in ascending order eases differentiation of the images. For image 'Canonical Ubuntu 24.04', the output should be as follows:

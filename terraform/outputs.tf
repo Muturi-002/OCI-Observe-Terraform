@@ -9,3 +9,8 @@ output "Instance_ip" {
   description = "Public IPv4 address of the instance"
   value       = oci_core_instance.Test-instance.public_ip
 }
+
+output "instance_ocid" {
+  description = "OCID of instance created."
+  value       = oci_core_instance.Test-instance.id
+}

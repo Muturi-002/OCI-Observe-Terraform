@@ -1,10 +1,10 @@
 data "oci_monitoring_metrics" "server_metrics" {
-  #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.observability_compartment_id
 
   dimension_filters = {
-    "resourceId" : "${oci_compute_instance.Test_instance.id}"
+    "resourceId" : var.instance_id
   }
-  name      = "CPU Utilization"
+  name      = "CpuUtilization"
   namespace = "oci_computeagent"
 }
+

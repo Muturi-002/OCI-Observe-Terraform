@@ -1,27 +1,39 @@
 # OCI-Observe-Terraform
-This is a simple project that seeks to define infrastructure with provision of monitoring capabilities to the cloud/infra/devops engineer/architect. This will be implemented via manual creation of resources, event rules and alarms, followed by a Terraform scripts for automating such a provision. This project will also delve into state management.
+This is a simple project that seeks to define infrastructure with provision of monitoring capabilities to the cloud/infra/devops engineer/architect. This will be implemented via manual creation of resources, monitoring resources and alarms, followed by a Terraform scripts for automating such a provision. This project will also delve into state management and module configuration.
 
-Cloud provider: OCI
+Cloud provider: [OCI](https://registry.terraform.io/providers/oracle/oci/)
 
-## Project Structure (In Design)
+## Key characteristics of this project
+1. Dedicated compartment, user group and user, with minimal policies in place.
+2. OCI Terraform remote state management and locking.
+
+## Project Structure
 
 ```
-├── terraform
-│   ├── terraform.tfstate.backup
-│   ├── provider.tf
-│   ├── datasources.tf
-│   ├── terraform.tfvars
-│   ├── Observability-config
-│   │   ├── logs
-│   │   ├── notifications.tf
-│   │   └── monitor.tf
-│   ├── terraform.tfstate
-│   ├── compute.tf
-│   ├── network.tf
-│   ├── outputs.tf
-│   └── variables.tf
-├── .gitignore
-└── README.md
+├── Bucket-objects.png
+├── Deleted-objects.png
+├── notes.md                            # Documentation/ Note taken on setup
+├── README.md
+├── Terminal-output-on-objects.png
+└── terraform
+    ├── backend-storage.tf              # Remote backend storage setup
+    ├── cloud-init.sh                   
+    ├── compute.tf                      # Instance setup
+    ├── datasources.tf                  # Get sources
+    ├── main.tf                         # modules configuration
+    ├── network.tf                      # Network setup
+    ├── outputs.tf                      
+    ├── provider.tf
+    ├── variables.tf
+    ├── identity
+    │   ├── iam.tf                      # IAM setup 
+    │   ├── outputs.tf
+    │   └── variables.tf
+    └── Observability-config            # Monitoring and alarm setup
+        ├── alarms.tf
+        ├── monitor.tf
+        ├── notifications.tf
+        └── variables.tf
 ```
 
 ## Steps
@@ -36,24 +48,32 @@ Cloud provider: OCI
 
 1. Navigate to the directory `terraform/`, and create a new file, `terraform.tfvars`, with the following variables to be filled:
     ```hcl
-    tenancy_ocid='<tenancy_ocid>'
-    tenancy_region='<tenancy_region>'
-    user_ocid='<user_ocid>'
-    fingerprint='<fingerprint>'             # Generated via the OCI CLI command `oci session config`
+    tenancy_ocid="<tenancy_ocid>"
+    tenancy_region="<tenancy_region>"
+    user_ocid="<user_ocid>"
+    fingerprint="<fingerprint>"             # Generated via the OCI CLI command `oci session config`
     path_to_key_file="<path_to_key_file>"   # Generated via the CLI command `oci session authenticate`
-    compartment_ocid=<compartment_ocid>
-    vm_instance_shape='<vm_instance_shape>' # e.g., VM-Standard-2.1
-    vm_instance_OS='<vm_instance_OS>'       # e.g., Ubuntu 20.04, Oracle Linux 9/8/10
-    instance_ssh_key='private_key_contents' # Optional, VM can be accessed via its remote console/console connection from the web console
+    compartment_ocid="<compartment_ocid>"
+    vm_instance_shape="<vm_instance_shape>" # e.g., VM-Standard-2.1
+    vm_instance_OS="<vm_instance_OS>"       # e.g., Ubuntu 20.04, Oracle Linux 9/8/10
+    instance_ssh_key='public_key_contents' # Optional, VM can be accessed via its remote console/console connection from the web console
+
+    objectstorage_namespace="<OCI_OS_Namespace>
+    ```
+2. Certain variables, `observability-user` and `user_email`, have to be included in the variable file under the root module so as to be used as intended. Create a text file with this variables.
+    ```
+    observability_user="<dedicated_user_account_name>"
+    user_email="<email_of_user>"
     ```
 2. Run these commands
     ```bash
     terraform init
-    terraform plan
-    terraform apply         # Optional to add '--auto-approve' if you are sure of your desired configurations
+    terraform plan  --var-file=<name_of_text_file>.txt
+    terraform apply  --var-file=<name_of_text_file>.txt       # Optional to add '--auto-approve' if you are sure of your desired configurations
     ```
 3. Monitor your costs, then destroy your infrastructure.
-    ```hcl
-    terraform destroy --auto-approve
+    ```bash
+    terraform destroy --auto-approve --var-file=<name_of_text_file>.txt
     ```
 
+Check the [Notes file](./notes.md) on the remote state management configuration.

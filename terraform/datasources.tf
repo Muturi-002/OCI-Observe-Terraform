@@ -20,3 +20,10 @@ data "oci_core_images" "instance_image" {
     With this kind of order, picking a compartible image for the shape is more convenient.
   */
 }
+
+
+# Get list of objects from the dedicated bucket
+data "oci_objectstorage_objects" "backend_bucket_objects" {
+  bucket    = oci_objectstorage_bucket.backend_bucket.name
+  namespace = var.objectstorage_namespace
+}

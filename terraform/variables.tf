@@ -46,6 +46,3 @@ variable "user_email" {
 variable "objectstorage_namespace" {
   description = "namespace of the OCI object storage in your tenancy."
 }
-variable "backend_bucket_id" {
-  description = "Object storage bucket used for remote state configuration management"
-}

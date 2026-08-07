@@ -14,3 +14,12 @@ output "instance_ocid" {
   description = "OCID of instance created."
   value       = oci_core_instance.Test-instance.id
 }
+
+output "object_storage_bucket" {
+  description = "Name of the bucket"
+  value       = oci_objectstorage_bucket.backend_bucket.name
+}
+output "bucket_objects" {
+  description = "Names of objects in the dedicated bucket"
+  value       = [for object in data.oci_objectstorage_objects.backend_bucket_objects.objects : object.name]
+}

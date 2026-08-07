@@ -4,6 +4,6 @@ output "observability_compartment_id" {
 }
 
 output "user_email" {
-  description="user email used for this demo"
-  value=var.user_email
+  description = "user email used for this demo"
+  value       = var.user_email
 }

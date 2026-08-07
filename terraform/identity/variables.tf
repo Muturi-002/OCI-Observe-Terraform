@@ -24,3 +24,8 @@ variable "user_name" {
 variable "user_email" {
   description = "user's email"
 }
+
+variable "backend_bucket_name" {
+  description = "Name of the Object Storage bucket used for Terraform remote state."
+  type        = string
+}

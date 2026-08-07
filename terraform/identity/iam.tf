@@ -52,6 +52,11 @@ resource "oci_identity_policy" "test_policy" {
 
     # Allow monitoring capabilities for the dedicated user under the observability compartment
     "Allow group ${oci_identity_group.observability_group.name} to manage alarms in compartment ${oci_identity_compartment.observability_compartment.name}", # User needs to create alarms in this compartment. Assuming a production-level scenario
-    "Allow group ${oci_identity_group.observability_group.name} to use metrics in compartment ${oci_identity_compartment.observability_compartment.name}"
+    "Allow group ${oci_identity_group.observability_group.name} to use metrics in compartment ${oci_identity_compartment.observability_compartment.name}",
+
+
+    # Allow user to view Terraform state of the entire configuration remotely
+    "Allow group ${oci_identity_group.observability_group.name} to read buckets in compartment ${oci_identity_compartment.observability_compartment.name}",
+    "Allow group ${oci_identity_group.observability_group.name} to read objects in compartment ${oci_identity_compartment.observability_compartment.name} where target.bucket.name='${var.backend_bucket_name}'"
   ]
 }

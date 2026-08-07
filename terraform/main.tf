@@ -15,6 +15,9 @@ module "identity" {
   # Username definition
   user_name  = var.observability_user
   user_email = var.user_email
+
+  # Remote state file reading by user using Object Storage
+  backend_bucket_name = oci_objectstorage_bucket.backend_bucket.name
 }
 
 module "observability" {

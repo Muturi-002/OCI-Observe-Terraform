@@ -36,6 +36,12 @@ Cloud provider: [OCI](https://registry.terraform.io/providers/oracle/oci/)
         └── variables.tf
 ```
 
+## OCI Services Provisioned/Used
+- Infrastructure: Instances (1), VCN (1), Object Storage (1, *optional*)
+- IAM: Compartment (1), User Group (1), Policies
+- Monitoring: Notifications (Topic (1), Subscription (1)), Alarm (1), Metrics
+
+
 ## Steps
 ### *Prerequisites* 
 - OCI CLI installed on your local machine
